@@ -1,6 +1,6 @@
 # Credit Risk Probability Model for Alternative Data
 
-## Credit Scoring Business Understanding
+## Task-1 Credit Scoring Business Understanding
 
 ### How does the Basel II Accord’s emphasis on risk measurement influence our need for an interpretable and well-documented model?
 
@@ -44,3 +44,12 @@ In a regulated financial context, the choice between simple, interpretable model
   - **Model Risk:** Higher risk of undetected errors or biases due to their complexity.
 
 In a regulated environment, the emphasis on interpretability, transparency, and regulatory acceptance often favors simpler models, even if it means sacrificing some predictive power. However, with advancements in explainable AI (XAI) techniques, the gap in interpretability for complex models is narrowing, potentially allowing for their increased adoption in the future, provided robust validation and explanation frameworks are in place.
+
+## Task 2 - Exploratory Data Analysis (EDA)
+
+Based on the initial exploratory data analysis (EDA) performed in `notebooks/1.0-eda.ipynb`, here are the key insights:
+
+1. **No Missing Values:** The dataset is clean with no apparent missing values, which simplifies the data preprocessing step.
+2. **Negative Transaction Amounts:** The 'Amount' column contains negative values. These likely represent refunds or transaction reversals and require further investigation to understand their impact on fraud detection.
+3. **Categorical Feature Encoding:** Several columns such as `ProductCategory`, `ChannelId`, `CurrencyCode`, and `CountryCode` are categorical. These features will need to be appropriately encoded (e.g., one-hot encoding) before being used in machine learning models.
+4. **Fraud Result Distribution:** The target variable, `FraudResult`, needs to be carefully examined for class imbalance. An imbalanced distribution (where fraudulent transactions are rare) is common in fraud detection and will necessitate specific handling techniques (e.g., oversampling, undersampling, or specialized evaluation metrics) during model training.
