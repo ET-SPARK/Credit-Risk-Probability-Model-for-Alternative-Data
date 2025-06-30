@@ -88,12 +88,15 @@ def process_data(df):
     # Merge the is_high_risk column back into the main DataFrame
     df_featured = pd.merge(df_featured, customer_risk, on='customer_id', how='left')
 
+    # Define features (X) and target (y)
+    X = df_featured.drop(columns=['customer_id', 'transaction_id', 'transaction_date', 'target', 'is_high_risk'])
+    y = df_featured['is_high_risk']
+
     # Define numerical and categorical features
     numerical_features = [
         'transaction_amount', 'age', 'income',
         'transaction_hour', 'transaction_day', 'transaction_month', 'transaction_year',
-        'total_transaction_amount', 'average_transaction_amount', 'transaction_count', 'std_dev_transaction_amounts',
-        'is_high_risk'
+        'total_transaction_amount', 'average_transaction_amount', 'transaction_count', 'std_dev_transaction_amounts'
     ]
     categorical_features = ['gender', 'education', 'marital_status']
 
@@ -110,14 +113,17 @@ def process_data(df):
 
     # Create a column transformer to apply different transformations to different columns
     preprocessor = ColumnTransformer(
-        transformers=[
+            transformers=[
             ('num', numerical_pipeline, numerical_features),
             ('cat', categorical_pipeline, categorical_features)
         ],
         remainder='drop' # drop other columns
     )
 
-    return df_featured, preprocessor
+    # Fit and transform the features
+    X_processed = preprocessor.fit_transform(X)
+
+    return X_processed, y, preprocessor
 
 if __name__ == '__main__':
     # Create a dummy raw data file if it doesn't exist
@@ -143,7 +149,16 @@ if __name__ == '__main__':
     df = load_data('data/raw/credit_risk_data.csv')
 
     # Process the data
-    processed_df, pipeline = process_data(df)
+    X_processed, y, pipeline = process_data(df)
+    
+    # Get feature names after preprocessing
+    feature_names = pipeline.get_feature_names_out()
+    
+    # Create a DataFrame from processed features
+    X_processed_df = pd.DataFrame(X_processed, columns=feature_names)
+
+    # Combine processed features and target variable
+    processed_df = pd.concat([X_processed_df, y.reset_index(drop=True)], axis=1)
     
     # Save the processed data
     os.makedirs('data/processed', exist_ok=True)
