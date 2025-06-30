@@ -84,7 +84,7 @@ Based on the initial exploratory data analysis (EDA) performed in `notebooks/1.0
 
 This project aims to build a credit risk probability model using alternative data sources. The model will be used to assess the creditworthiness of individuals who may not have a traditional credit history.
 
-## Tsk-3 Feature Engineering
+## Task-3 Feature Engineering
 
 The `src/data_processing.py` script is responsible for feature engineering. It takes raw data, performs various transformations, and saves the processed data and a scikit-learn pipeline.
 
