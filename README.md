@@ -1,7 +1,5 @@
 # Credit Risk Probability Model for Alternative Data
 
-This project aims to build a credit risk probability model using alternative data sources. The model will be used to assess the creditworthiness of individuals who may not have a traditional credit history.
-
 ## Task-1 Credit Scoring Business Understanding
 
 ### How does the Basel II Accord’s emphasis on risk measurement influence our need for an interpretable and well-documented model?
@@ -82,7 +80,11 @@ Based on the initial exploratory data analysis (EDA) performed in `notebooks/1.0
 3. **Categorical Feature Encoding:** Several columns such as `ProductCategory`, `ChannelId`, `CurrencyCode`, and `CountryCode` are categorical. These features will need to be appropriately encoded (e.g., one-hot encoding) before being used in machine learning models.
 4. **Fraud Result Distribution:** The target variable, `FraudResult`, needs to be carefully examined for class imbalance. An imbalanced distribution (where fraudulent transactions are rare) is common in fraud detection and will necessitate specific handling techniques (e.g., oversampling, undersampling, or specialized evaluation metrics) during model training.
 
-## Tsk-3 Feature Engineering
+# Credit Risk Probability Model for Alternative Data
+
+This project aims to build a credit risk probability model using alternative data sources. The model will be used to assess the creditworthiness of individuals who may not have a traditional credit history.
+
+## Task-3 Feature Engineering
 
 The `src/data_processing.py` script is responsible for feature engineering. It takes raw data, performs various transformations, and saves the processed data and a scikit-learn pipeline.
 
