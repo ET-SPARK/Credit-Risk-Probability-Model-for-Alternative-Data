@@ -16,3 +16,6 @@ tzdata==2025.2
 scikit-learn==1.5.1
 mlflow
 pytest
+fastapi
+uvicorn
+flake8
