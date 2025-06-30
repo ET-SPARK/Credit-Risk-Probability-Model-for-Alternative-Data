@@ -109,6 +109,19 @@ The script performs the following transformations:
 - **Missing Value Imputation:** Fills missing values using the median for numerical features and the most frequent value for categorical features.
 - **Normalization/Standardization:** Standardizes numerical features to have a mean of 0 and a standard deviation of 1.
 
+## Task 4 - Proxy Target Variable Engineering
+
+Since a direct "credit risk" column is not available, a proxy target variable named `is_high_risk` is engineered. This involves identifying a group of "disengaged" customers who are labeled as high-risk proxies, representing those with a high likelihood of default.
+
+### Implementation in `src/data_processing.py`
+
+The `src/data_processing.py` script has been updated to include the following steps for proxy target variable engineering:
+
+1.  **Calculate RFM Metrics:** For each `customer_id`, Recency, Frequency, and Monetary (RFM) values are calculated from the transaction history. A snapshot date (one day after the latest transaction) is used for consistent Recency calculation.
+2.  **Cluster Customers:** The K-Means clustering algorithm is applied to segment customers into 3 distinct groups based on their RFM profiles. RFM features are scaled using `StandardScaler` before clustering to ensure meaningful results. A `random_state` is set for reproducibility.
+3.  **Define and Assign "High-Risk" Label:** The resulting clusters are analyzed to determine which one represents the least engaged and therefore highest-risk customer segment (typically characterized by high Recency, low Frequency, and low Monetary value). A new binary target column named `is_high_risk` is created, with a value of 1 for customers in this high-risk cluster and 0 for all others.
+4.  **Integrate the Target Variable:** The `is_high_risk` column is merged back into the main processed dataset, making it available for subsequent model training.
+
 ## Task-5 Model Training
 
 The `src/train.py` script is responsible for training the model. It loads the processed data and trains a logistic regression model.
