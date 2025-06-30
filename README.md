@@ -45,6 +45,32 @@ In a regulated financial context, the choice between simple, interpretable model
 
 In a regulated environment, the emphasis on interpretability, transparency, and regulatory acceptance often favors simpler models, even if it means sacrificing some predictive power. However, with advancements in explainable AI (XAI) techniques, the gap in interpretability for complex models is narrowing, potentially allowing for their increased adoption in the future, provided robust validation and explanation frameworks are in place.
 
+## Project Structure
+
+```
+├── data
+│   ├── processed
+│   └── raw
+├── notebooks
+│   └── 1.0-eda.ipynb
+├── src
+│   ├── __init__.py
+│   ├── api
+│   │   ├── main.py
+│   │   └── pydantic_models.py
+│   ├── data_processing.py
+│   ├── predict.py
+│   └── train.py
+├── tests
+│   └── test_data_processing.py
+├── .gitignore
+├── docker-compose.yml
+├── Dockerfile
+├── LICENSE
+├── README.md
+└── requirements.txt
+```
+
 ## Task 2 - Exploratory Data Analysis (EDA)
 
 Based on the initial exploratory data analysis (EDA) performed in `notebooks/1.0-eda.ipynb`, here are the key insights:
@@ -53,3 +79,62 @@ Based on the initial exploratory data analysis (EDA) performed in `notebooks/1.0
 2. **Negative Transaction Amounts:** The 'Amount' column contains negative values. These likely represent refunds or transaction reversals and require further investigation to understand their impact on fraud detection.
 3. **Categorical Feature Encoding:** Several columns such as `ProductCategory`, `ChannelId`, `CurrencyCode`, and `CountryCode` are categorical. These features will need to be appropriately encoded (e.g., one-hot encoding) before being used in machine learning models.
 4. **Fraud Result Distribution:** The target variable, `FraudResult`, needs to be carefully examined for class imbalance. An imbalanced distribution (where fraudulent transactions are rare) is common in fraud detection and will necessitate specific handling techniques (e.g., oversampling, undersampling, or specialized evaluation metrics) during model training.
+
+# Credit Risk Probability Model for Alternative Data
+
+This project aims to build a credit risk probability model using alternative data sources. The model will be used to assess the creditworthiness of individuals who may not have a traditional credit history.
+
+## Task-3 Feature Engineering
+
+The `src/data_processing.py` script is responsible for feature engineering. It takes raw data, performs various transformations, and saves the processed data and a scikit-learn pipeline.
+
+### How to run the script
+
+1.  Place your raw data in the `data/raw` directory. The data should be in a CSV file named `credit_risk_data.csv`.
+2.  Run the script from the root of the project:
+
+```bash
+python src/data_processing.py
+```
+
+This will generate the processed data in `data/processed/processed_credit_risk_data.csv` and the pipeline in `src/pipeline.joblib`.
+
+### Transformations
+
+The script performs the following transformations:
+
+- **Aggregate Features:** Creates features like total transaction amount, average transaction amount, etc.
+- **Date Features:** Extracts features like hour, day, month, and year from the transaction date.
+- **Categorical Encoding:** Uses one-hot encoding for categorical features.
+- **Missing Value Imputation:** Fills missing values using the median for numerical features and the most frequent value for categorical features.
+- **Normalization/Standardization:** Standardizes numerical features to have a mean of 0 and a standard deviation of 1.
+
+## Task-5 Model Training
+
+The `src/train.py` script is responsible for training the model. It loads the processed data and trains a logistic regression model.
+
+### How to run the script
+
+1.  Make sure you have run the data processing script first.
+2.  Run the script from the root of the project:
+
+```bash
+python src/train.py
+```
+
+This will save the trained model to `src/model.joblib`.
+
+## Prediction
+
+The `src/predict.py` script is responsible for making predictions on new data. It loads the trained model and the pipeline and makes predictions on new data.
+
+### How to run the script
+
+1.  Place your new data in the `data/raw` directory. The data should be in a CSV file named `new_credit_risk_data.csv`.
+2.  Run the script from the root of the project:
+
+```bash
+python src/predict.py
+```
+
+This will print the predictions to the console.
